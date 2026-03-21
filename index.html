@@ -33,6 +33,7 @@
 
     .wrap {
       width: min(1440px, 100%);
+      margin: 0 auto;
       background: var(--card);
       backdrop-filter: blur(10px);
       border: 1px solid var(--border);
@@ -90,6 +91,13 @@
 
     @media (max-width: 768px) {
       body { padding: 14px; }
+      .topbar {
+        justify-content: center;
+        text-align: center;
+      }
+      .wrap {
+        width: 100%;
+      }
       .footer { font-size: 12px; }
     }
 
