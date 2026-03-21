@@ -112,7 +112,7 @@
       }
 
       .wrap {
-        width: min(calc((100dvh - 52px) * 1440 / 868), calc(100vw - 20px));
+        width: auto;
       }
     }
 
@@ -133,5 +133,44 @@
 
 
   </main>
+  <script>
+    const MOBILE_WIDTH_BREAKPOINT = 768;
+    const LANDSCAPE_BREAKPOINT = 932;
+    const PROTOTYPE_WIDTH = 1440;
+    const PROTOTYPE_HEIGHT = 868;
+
+    function updateResponsiveFrame() {
+      const wrap = document.querySelector('.wrap');
+      const topbar = document.querySelector('.topbar');
+
+      if (!wrap || !topbar) {
+        return;
+      }
+
+      wrap.style.width = '';
+
+      const isPortraitMobile = window.innerWidth <= MOBILE_WIDTH_BREAKPOINT && window.matchMedia('(orientation: portrait)').matches;
+      const isLandscapeMobile = window.innerWidth <= LANDSCAPE_BREAKPOINT && window.matchMedia('(orientation: landscape)').matches;
+
+      if (isPortraitMobile) {
+        wrap.style.width = '100%';
+        return;
+      }
+
+      if (isLandscapeMobile) {
+        const horizontalPadding = 20;
+        const verticalPadding = 20;
+        const availableWidth = window.innerWidth - horizontalPadding;
+        const availableHeight = window.innerHeight - topbar.offsetHeight - verticalPadding - 2;
+        const widthFromHeight = (availableHeight * PROTOTYPE_WIDTH) / PROTOTYPE_HEIGHT;
+
+        wrap.style.width = `${Math.min(availableWidth, widthFromHeight)}px`;
+      }
+    }
+
+    window.addEventListener('load', updateResponsiveFrame);
+    window.addEventListener('resize', updateResponsiveFrame);
+    window.addEventListener('orientationchange', updateResponsiveFrame);
+  </script>
 </body>
 </html>
