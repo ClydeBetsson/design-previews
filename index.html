@@ -32,7 +32,7 @@
     }
 
     .wrap {
-      width: min(868px, calc(100vw - 48px));
+      width: min(calc(100vw - 48px), 1440px);
       margin: 0 auto;
       background: var(--card);
       backdrop-filter: blur(10px);
@@ -71,6 +71,7 @@
     .frame-area {
       width: 100%;
       height: auto;
+      max-height: 868px;
       aspect-ratio: 1440 / 868;
       background: rgba(2, 6, 23, 0.45);
     }
