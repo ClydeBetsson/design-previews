@@ -25,8 +25,10 @@
       font-family: "Avenir Next", "Segoe UI", sans-serif;
       background: #FAFAFC;
       padding: 24px;
-      display: grid;
-      place-items: center;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      overflow-y: auto;
     }
 
     .wrap {
@@ -99,8 +101,11 @@
 
     @media (max-width: 768px) {
       body { padding: 14px; }
-      .frame-area { aspect-ratio: 9 / 16; }
       .footer { font-size: 12px; }
+    }
+
+    @media (orientation: landscape) and (max-width: 1024px) {
+      .frame-area { height: 100vw; }
     }
   </style>
 </head>
