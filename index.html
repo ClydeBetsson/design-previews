@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Hania Mercieca Portfolio</title>
+  <title>My Portfolio</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap" rel="stylesheet" />
   <style>
     :root {
@@ -58,12 +58,6 @@
       color: #03045E;
     }
 
-    .subtitle {
-      color: #0f172a;
-      font-size: 13px;
-      opacity: 0.8;
-    }
-
     .badge {
       font-size: 12px;
       font-weight: 700;
@@ -91,13 +85,6 @@
       transform-origin: top left;
     }
 
-    .footer {
-      padding: 12px 18px;
-      color: var(--muted);
-      font-size: 13px;
-      border-top: 1px solid var(--border);
-    }
-
     @media (max-width: 768px) {
       body { padding: 14px; }
       .topbar {
@@ -107,7 +94,6 @@
       .wrap {
         width: 100%;
       }
-      .footer { font-size: 12px; }
     }
 
     @media (max-width: 932px) and (orientation: landscape) {
@@ -129,8 +115,7 @@
 <body>
   <main class="wrap">
     <header class="topbar">
-      <h1 class="title" id="portfolio-title">Hania Mercieca Portfolio</h1>
-      <p class="subtitle" id="portfolio-subtitle">Selected product and design work</p>
+      <h1 class="title" id="portfolio-title">My Portfolio</h1>
     </header>
 
     <section class="frame-area">
@@ -140,13 +125,10 @@
         allowfullscreen>
       </iframe>
     </section>
-
-    <footer class="footer">www.haniamercieca.com</footer>
   </main>
   <script>
     const PORTFOLIO_CONFIG = {
-      title: 'Hania Mercieca Portfolio',
-      subtitle: 'Selected product and design work',
+      title: 'My Portfolio',
       prototypeUrl: 'https://embed.figma.com/proto/T9J3WfJAqlPMpMrOGsp4nH/Portfolios?node-id=521-4921&scaling=scale-down-width&starting-point-node-id=521%3A4921&page-id=370%3A105&embed-host=share&hide-ui=1'
     };
 
@@ -157,15 +139,10 @@
 
     function applyPortfolioContent() {
       const title = document.querySelector('#portfolio-title');
-      const subtitle = document.querySelector('#portfolio-subtitle');
       const prototype = document.querySelector('#portfolio-prototype');
 
       if (title) {
         title.textContent = PORTFOLIO_CONFIG.title;
-      }
-
-      if (subtitle) {
-        subtitle.textContent = PORTFOLIO_CONFIG.subtitle;
       }
 
       if (prototype) {
@@ -176,7 +153,6 @@
     function updateResponsiveFrame() {
       const wrap = document.querySelector('.wrap');
       const topbar = document.querySelector('.topbar');
-      const footer = document.querySelector('.footer');
       const frameArea = document.querySelector('.frame-area');
       const prototype = document.querySelector('#portfolio-prototype');
 
@@ -189,9 +165,8 @@
       const isPortraitMobile = window.innerWidth <= MOBILE_WIDTH_BREAKPOINT && window.matchMedia('(orientation: portrait)').matches;
       const horizontalPadding = isPortraitMobile ? 28 : 48;
       const verticalPadding = isPortraitMobile ? 28 : 48;
-      const footerHeight = footer ? footer.offsetHeight : 0;
       const availableWidth = Math.max(window.innerWidth - horizontalPadding, 280);
-      const availableHeight = Math.max(window.innerHeight - topbar.offsetHeight - footerHeight - verticalPadding - 2, 180);
+      const availableHeight = Math.max(window.innerHeight - topbar.offsetHeight - verticalPadding - 2, 180);
       const widthFromHeight = (availableHeight * PROTOTYPE_WIDTH) / PROTOTYPE_HEIGHT;
       const fitWidth = Math.min(availableWidth, widthFromHeight, PROTOTYPE_WIDTH);
       const scale = fitWidth / PROTOTYPE_WIDTH;
