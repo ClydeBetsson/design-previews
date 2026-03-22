@@ -74,18 +74,21 @@
     }
 
     .frame-area {
+      position: relative;
       width: 100%;
       height: auto;
       max-height: 868px;
       aspect-ratio: 1440 / 868;
       background: rgba(2, 6, 23, 0.45);
+      overflow: hidden;
     }
 
     iframe {
-      width: 100%;
-      height: 100%;
+      width: 1440px;
+      height: 868px;
       border: 0;
       display: block;
+      transform-origin: top left;
     }
 
     .footer {
@@ -174,8 +177,10 @@
       const wrap = document.querySelector('.wrap');
       const topbar = document.querySelector('.topbar');
       const footer = document.querySelector('.footer');
+      const frameArea = document.querySelector('.frame-area');
+      const prototype = document.querySelector('#portfolio-prototype');
 
-      if (!wrap || !topbar) {
+      if (!wrap || !topbar || !frameArea || !prototype) {
         return;
       }
 
@@ -189,8 +194,11 @@
       const availableHeight = Math.max(window.innerHeight - topbar.offsetHeight - footerHeight - verticalPadding - 2, 180);
       const widthFromHeight = (availableHeight * PROTOTYPE_WIDTH) / PROTOTYPE_HEIGHT;
       const fitWidth = Math.min(availableWidth, widthFromHeight, PROTOTYPE_WIDTH);
+      const scale = fitWidth / PROTOTYPE_WIDTH;
 
       wrap.style.width = `${Math.max(280, fitWidth)}px`;
+      frameArea.style.height = `${Math.max(180, PROTOTYPE_HEIGHT * scale)}px`;
+      prototype.style.transform = `scale(${scale})`;
     }
 
     window.addEventListener('load', () => {
