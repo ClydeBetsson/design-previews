@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>My Portfolio</title>
+  <title>Hania Mercieca Portfolio</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap" rel="stylesheet" />
   <style>
     :root {
@@ -58,6 +58,12 @@
       color: #03045E;
     }
 
+    .subtitle {
+      color: #0f172a;
+      font-size: 13px;
+      opacity: 0.8;
+    }
+
     .badge {
       font-size: 12px;
       font-weight: 700;
@@ -69,7 +75,9 @@
 
     .frame-area {
       width: 100%;
-      height: 0;
+      height: auto;
+      max-height: 868px;
+      aspect-ratio: 1440 / 868;
       background: rgba(2, 6, 23, 0.45);
     }
 
@@ -78,6 +86,13 @@
       height: 100%;
       border: 0;
       display: block;
+    }
+
+    .footer {
+      padding: 12px 18px;
+      color: var(--muted);
+      font-size: 13px;
+      border-top: 1px solid var(--border);
     }
 
     @media (max-width: 768px) {
@@ -89,6 +104,7 @@
       .wrap {
         width: 100%;
       }
+      .footer { font-size: 12px; }
     }
 
     @media (max-width: 932px) and (orientation: landscape) {
@@ -110,51 +126,83 @@
 <body>
   <main class="wrap">
     <header class="topbar">
-      <h1 class="title">My Portfolio</h1>
+      <h1 class="title" id="portfolio-title">Hania Mercieca Portfolio</h1>
+      <p class="subtitle" id="portfolio-subtitle">Selected product and design work</p>
     </header>
 
     <section class="frame-area">
       <iframe
         id="portfolio-prototype"
-        src="https://embed.figma.com/proto/T9J3WfJAqlPMpMrOGsp4nH/Portfolios?node-id=521-4921&scaling=contain&content-scaling=responsive&starting-point-node-id=521%3A4921&page-id=370%3A105&embed-host=share&hide-ui=1"
+        src="https://embed.figma.com/proto/T9J3WfJAqlPMpMrOGsp4nH/Portfolios?node-id=521-4921&scaling=min-zoom&content-scaling=fixed&starting-point-node-id=521%3A4921&page-id=370%3A105&embed-host=share&hide-ui=1"
         allowfullscreen>
       </iframe>
     </section>
 
+    <footer class="footer">www.haniamercieca.com</footer>
   </main>
   <script>
+    const PORTFOLIO_CONFIG = {
+      title: 'Hania Mercieca Portfolio',
+      subtitle: 'Selected product and design work',
+      prototypeUrl: 'https://embed.figma.com/proto/T9J3WfJAqlPMpMrOGsp4nH/Portfolios?node-id=521-4921&scaling=min-zoom&content-scaling=fixed&starting-point-node-id=521%3A4921&page-id=370%3A105&embed-host=share&hide-ui=1'
+    };
+
+    const MOBILE_WIDTH_BREAKPOINT = 768;
+    const LANDSCAPE_BREAKPOINT = 932;
     const PROTOTYPE_WIDTH = 1440;
     const PROTOTYPE_HEIGHT = 868;
+
+    function applyPortfolioContent() {
+      const title = document.querySelector('#portfolio-title');
+      const subtitle = document.querySelector('#portfolio-subtitle');
+      const prototype = document.querySelector('#portfolio-prototype');
+
+      if (title) {
+        title.textContent = PORTFOLIO_CONFIG.title;
+      }
+
+      if (subtitle) {
+        subtitle.textContent = PORTFOLIO_CONFIG.subtitle;
+      }
+
+      if (prototype) {
+        prototype.src = PORTFOLIO_CONFIG.prototypeUrl;
+      }
+    }
 
     function updateResponsiveFrame() {
       const wrap = document.querySelector('.wrap');
       const topbar = document.querySelector('.topbar');
-      const frameArea = document.querySelector('.frame-area');
 
-      if (!wrap || !topbar || !frameArea) {
+      if (!wrap || !topbar) {
         return;
       }
 
-      const bodyStyle = window.getComputedStyle(document.body);
-      const bodyHorizontalPadding = parseFloat(bodyStyle.paddingLeft) + parseFloat(bodyStyle.paddingRight);
-      const bodyVerticalPadding = parseFloat(bodyStyle.paddingTop) + parseFloat(bodyStyle.paddingBottom);
-      const aspectRatio = PROTOTYPE_WIDTH / PROTOTYPE_HEIGHT;
+      wrap.style.width = '';
 
-      const availableWidth = Math.max(1, window.innerWidth - bodyHorizontalPadding - 2);
-      const availableHeight = Math.max(1, window.innerHeight - bodyVerticalPadding - topbar.offsetHeight - 2);
+      const isPortraitMobile = window.innerWidth <= MOBILE_WIDTH_BREAKPOINT && window.matchMedia('(orientation: portrait)').matches;
+      const isLandscapeMobile = window.innerWidth <= LANDSCAPE_BREAKPOINT && window.matchMedia('(orientation: landscape)').matches;
 
-      const widthFillHeight = availableWidth / aspectRatio;
-      const shouldUseHeightFill = widthFillHeight > availableHeight;
+      if (isPortraitMobile) {
+        wrap.style.width = '100%';
+        return;
+      }
 
-      const frameWidth = shouldUseHeightFill ? availableHeight * aspectRatio : availableWidth;
-      const frameHeight = shouldUseHeightFill ? availableHeight : widthFillHeight;
+      if (isLandscapeMobile) {
+        const horizontalPadding = 20;
+        const verticalPadding = 20;
+        const availableWidth = window.innerWidth - horizontalPadding;
+        const availableHeight = window.innerHeight - topbar.offsetHeight - verticalPadding - 2;
+        const widthFromHeight = (availableHeight * PROTOTYPE_WIDTH) / PROTOTYPE_HEIGHT;
 
-      wrap.style.width = `${frameWidth}px`;
-      frameArea.style.width = `${frameWidth}px`;
-      frameArea.style.height = `${frameHeight}px`;
+        wrap.style.width = `${Math.min(availableWidth, widthFromHeight)}px`;
+      }
     }
 
-    window.addEventListener('load', updateResponsiveFrame);
+    window.addEventListener('load', () => {
+      applyPortfolioContent();
+      updateResponsiveFrame();
+    });
     window.addEventListener('resize', updateResponsiveFrame);
     window.addEventListener('orientationchange', updateResponsiveFrame);
   </script>
