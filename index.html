@@ -42,31 +42,6 @@
       overflow: hidden;
     }
 
-    .topbar {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 6px;
-      padding: 14px 18px;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .title {
-      font-size: clamp(16px, 2vw, 20px);
-      font-weight: 500;
-      letter-spacing: 0.2px;
-      color: #03045E;
-    }
-
-    .badge {
-      font-size: 12px;
-      font-weight: 700;
-      color: #052e16;
-      background: var(--accent);
-      border-radius: 999px;
-      padding: 6px 10px;
-    }
-
     .frame-area {
       position: relative;
       width: 100%;
@@ -87,10 +62,6 @@
 
     @media (max-width: 768px) {
       body { padding: 14px; }
-      .topbar {
-        align-items: center;
-        text-align: center;
-      }
       .wrap {
         width: 100%;
       }
@@ -99,10 +70,6 @@
     @media (max-width: 932px) and (orientation: landscape) {
       body {
         padding: 10px;
-      }
-
-      .topbar {
-        padding: 10px 14px;
       }
 
       .wrap {
@@ -114,10 +81,6 @@
 </head>
 <body>
   <main class="wrap">
-    <header class="topbar">
-      <h1 class="title" id="portfolio-title">My Portfolio</h1>
-    </header>
-
     <section class="frame-area">
       <iframe
         id="portfolio-prototype"
@@ -128,7 +91,6 @@
   </main>
   <script>
     const PORTFOLIO_CONFIG = {
-      title: 'My Portfolio',
       prototypeUrl: 'https://embed.figma.com/proto/T9J3WfJAqlPMpMrOGsp4nH/Portfolios?node-id=521-4921&scaling=scale-down-width&starting-point-node-id=521%3A4921&page-id=370%3A105&embed-host=share&hide-ui=1'
     };
 
@@ -138,12 +100,7 @@
     const PROTOTYPE_HEIGHT = 868;
 
     function applyPortfolioContent() {
-      const title = document.querySelector('#portfolio-title');
       const prototype = document.querySelector('#portfolio-prototype');
-
-      if (title) {
-        title.textContent = PORTFOLIO_CONFIG.title;
-      }
 
       if (prototype) {
         prototype.src = PORTFOLIO_CONFIG.prototypeUrl;
@@ -152,11 +109,10 @@
 
     function updateResponsiveFrame() {
       const wrap = document.querySelector('.wrap');
-      const topbar = document.querySelector('.topbar');
       const frameArea = document.querySelector('.frame-area');
       const prototype = document.querySelector('#portfolio-prototype');
 
-      if (!wrap || !topbar || !frameArea || !prototype) {
+      if (!wrap || !frameArea || !prototype) {
         return;
       }
 
@@ -166,7 +122,7 @@
       const horizontalPadding = isPortraitMobile ? 28 : 48;
       const verticalPadding = isPortraitMobile ? 28 : 48;
       const availableWidth = Math.max(window.innerWidth - horizontalPadding, 280);
-      const availableHeight = Math.max(window.innerHeight - topbar.offsetHeight - verticalPadding - 2, 180);
+      const availableHeight = Math.max(window.innerHeight - verticalPadding - 2, 180);
       const widthFromHeight = (availableHeight * PROTOTYPE_WIDTH) / PROTOTYPE_HEIGHT;
       const fitWidth = Math.min(availableWidth, widthFromHeight, PROTOTYPE_WIDTH);
       const scale = fitWidth / PROTOTYPE_WIDTH;
