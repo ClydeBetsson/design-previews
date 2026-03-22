@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Hania Mercieca Portfolio</title>
+  <title>My Portfolio</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap" rel="stylesheet" />
   <style>
     :root {
@@ -58,12 +58,6 @@
       color: #03045E;
     }
 
-    .subtitle {
-      color: #0f172a;
-      font-size: 13px;
-      opacity: 0.8;
-    }
-
     .badge {
       font-size: 12px;
       font-weight: 700;
@@ -88,13 +82,6 @@
       display: block;
     }
 
-    .footer {
-      padding: 12px 18px;
-      color: var(--muted);
-      font-size: 13px;
-      border-top: 1px solid var(--border);
-    }
-
     @media (max-width: 768px) {
       body { padding: 14px; }
       .topbar {
@@ -104,7 +91,6 @@
       .wrap {
         width: 100%;
       }
-      .footer { font-size: 12px; }
     }
 
     @media (max-width: 932px) and (orientation: landscape) {
@@ -126,8 +112,7 @@
 <body>
   <main class="wrap">
     <header class="topbar">
-      <h1 class="title" id="portfolio-title">Hania Mercieca Portfolio</h1>
-      <p class="subtitle" id="portfolio-subtitle">Selected product and design work</p>
+      <h1 class="title">My Portfolio</h1>
     </header>
 
     <section class="frame-area">
@@ -138,37 +123,12 @@
       </iframe>
     </section>
 
-    <footer class="footer">www.haniamercieca.com</footer>
   </main>
   <script>
-    const PORTFOLIO_CONFIG = {
-      title: 'Hania Mercieca Portfolio',
-      subtitle: 'Selected product and design work',
-      prototypeUrl: 'https://embed.figma.com/proto/T9J3WfJAqlPMpMrOGsp4nH/Portfolios?node-id=521-4921&scaling=min-zoom&content-scaling=fixed&starting-point-node-id=521%3A4921&page-id=370%3A105&embed-host=share&hide-ui=1'
-    };
-
     const MOBILE_WIDTH_BREAKPOINT = 768;
     const LANDSCAPE_BREAKPOINT = 932;
     const PROTOTYPE_WIDTH = 1440;
     const PROTOTYPE_HEIGHT = 868;
-
-    function applyPortfolioContent() {
-      const title = document.querySelector('#portfolio-title');
-      const subtitle = document.querySelector('#portfolio-subtitle');
-      const prototype = document.querySelector('#portfolio-prototype');
-
-      if (title) {
-        title.textContent = PORTFOLIO_CONFIG.title;
-      }
-
-      if (subtitle) {
-        subtitle.textContent = PORTFOLIO_CONFIG.subtitle;
-      }
-
-      if (prototype) {
-        prototype.src = PORTFOLIO_CONFIG.prototypeUrl;
-      }
-    }
 
     function updateResponsiveFrame() {
       const wrap = document.querySelector('.wrap');
@@ -199,10 +159,7 @@
       }
     }
 
-    window.addEventListener('load', () => {
-      applyPortfolioContent();
-      updateResponsiveFrame();
-    });
+    window.addEventListener('load', updateResponsiveFrame);
     window.addEventListener('resize', updateResponsiveFrame);
     window.addEventListener('orientationchange', updateResponsiveFrame);
   </script>
