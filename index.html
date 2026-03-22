@@ -173,6 +173,7 @@
     function updateResponsiveFrame() {
       const wrap = document.querySelector('.wrap');
       const topbar = document.querySelector('.topbar');
+      const footer = document.querySelector('.footer');
 
       if (!wrap || !topbar) {
         return;
@@ -181,22 +182,15 @@
       wrap.style.width = '';
 
       const isPortraitMobile = window.innerWidth <= MOBILE_WIDTH_BREAKPOINT && window.matchMedia('(orientation: portrait)').matches;
-      const isLandscapeMobile = window.innerWidth <= LANDSCAPE_BREAKPOINT && window.matchMedia('(orientation: landscape)').matches;
+      const horizontalPadding = isPortraitMobile ? 28 : 48;
+      const verticalPadding = isPortraitMobile ? 28 : 48;
+      const footerHeight = footer ? footer.offsetHeight : 0;
+      const availableWidth = Math.max(window.innerWidth - horizontalPadding, 280);
+      const availableHeight = Math.max(window.innerHeight - topbar.offsetHeight - footerHeight - verticalPadding - 2, 180);
+      const widthFromHeight = (availableHeight * PROTOTYPE_WIDTH) / PROTOTYPE_HEIGHT;
+      const fitWidth = Math.min(availableWidth, widthFromHeight, PROTOTYPE_WIDTH);
 
-      if (isPortraitMobile) {
-        wrap.style.width = '100%';
-        return;
-      }
-
-      if (isLandscapeMobile) {
-        const horizontalPadding = 20;
-        const verticalPadding = 20;
-        const availableWidth = window.innerWidth - horizontalPadding;
-        const availableHeight = window.innerHeight - topbar.offsetHeight - verticalPadding - 2;
-        const widthFromHeight = (availableHeight * PROTOTYPE_WIDTH) / PROTOTYPE_HEIGHT;
-
-        wrap.style.width = `${Math.min(availableWidth, widthFromHeight)}px`;
-      }
+      wrap.style.width = `${Math.max(280, fitWidth)}px`;
     }
 
     window.addEventListener('load', () => {
