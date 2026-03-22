@@ -69,9 +69,7 @@
 
     .frame-area {
       width: 100%;
-      height: auto;
-      max-height: 868px;
-      aspect-ratio: 1440 / 868;
+      height: 0;
       background: rgba(2, 6, 23, 0.45);
     }
 
@@ -125,38 +123,35 @@
 
   </main>
   <script>
-    const MOBILE_WIDTH_BREAKPOINT = 768;
-    const LANDSCAPE_BREAKPOINT = 932;
     const PROTOTYPE_WIDTH = 1440;
     const PROTOTYPE_HEIGHT = 868;
 
     function updateResponsiveFrame() {
       const wrap = document.querySelector('.wrap');
       const topbar = document.querySelector('.topbar');
+      const frameArea = document.querySelector('.frame-area');
 
-      if (!wrap || !topbar) {
+      if (!wrap || !topbar || !frameArea) {
         return;
       }
 
-      wrap.style.width = '';
+      const bodyStyle = window.getComputedStyle(document.body);
+      const bodyHorizontalPadding = parseFloat(bodyStyle.paddingLeft) + parseFloat(bodyStyle.paddingRight);
+      const bodyVerticalPadding = parseFloat(bodyStyle.paddingTop) + parseFloat(bodyStyle.paddingBottom);
+      const aspectRatio = PROTOTYPE_WIDTH / PROTOTYPE_HEIGHT;
 
-      const isPortraitMobile = window.innerWidth <= MOBILE_WIDTH_BREAKPOINT && window.matchMedia('(orientation: portrait)').matches;
-      const isLandscapeMobile = window.innerWidth <= LANDSCAPE_BREAKPOINT && window.matchMedia('(orientation: landscape)').matches;
+      const availableWidth = Math.max(320, window.innerWidth - bodyHorizontalPadding - 2);
+      const availableHeight = Math.max(200, window.innerHeight - bodyVerticalPadding - topbar.offsetHeight - 2);
 
-      if (isPortraitMobile) {
-        wrap.style.width = '100%';
-        return;
-      }
+      const widthFillHeight = availableWidth / aspectRatio;
+      const shouldUseHeightFill = widthFillHeight > availableHeight;
 
-      if (isLandscapeMobile) {
-        const horizontalPadding = 20;
-        const verticalPadding = 20;
-        const availableWidth = window.innerWidth - horizontalPadding;
-        const availableHeight = window.innerHeight - topbar.offsetHeight - verticalPadding - 2;
-        const widthFromHeight = (availableHeight * PROTOTYPE_WIDTH) / PROTOTYPE_HEIGHT;
+      const frameWidth = shouldUseHeightFill ? availableHeight * aspectRatio : availableWidth;
+      const frameHeight = shouldUseHeightFill ? availableHeight : widthFillHeight;
 
-        wrap.style.width = `${Math.min(availableWidth, widthFromHeight)}px`;
-      }
+      wrap.style.width = `${frameWidth}px`;
+      frameArea.style.width = `${frameWidth}px`;
+      frameArea.style.height = `${frameHeight}px`;
     }
 
     window.addEventListener('load', updateResponsiveFrame);
