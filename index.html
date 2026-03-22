@@ -138,17 +138,16 @@
       const bodyStyle = window.getComputedStyle(document.body);
       const bodyHorizontalPadding = parseFloat(bodyStyle.paddingLeft) + parseFloat(bodyStyle.paddingRight);
       const bodyVerticalPadding = parseFloat(bodyStyle.paddingTop) + parseFloat(bodyStyle.paddingBottom);
+      const aspectRatio = PROTOTYPE_WIDTH / PROTOTYPE_HEIGHT;
 
       const availableWidth = Math.max(1, window.innerWidth - bodyHorizontalPadding - 2);
       const availableHeight = Math.max(1, window.innerHeight - bodyVerticalPadding - topbar.offsetHeight - 2);
 
-      const scale = Math.min(
-        availableWidth / PROTOTYPE_WIDTH,
-        availableHeight / PROTOTYPE_HEIGHT
-      );
+      const widthFillHeight = availableWidth / aspectRatio;
+      const shouldUseHeightFill = widthFillHeight > availableHeight;
 
-      const frameWidth = PROTOTYPE_WIDTH * scale;
-      const frameHeight = PROTOTYPE_HEIGHT * scale;
+      const frameWidth = shouldUseHeightFill ? availableHeight * aspectRatio : availableWidth;
+      const frameHeight = shouldUseHeightFill ? availableHeight : widthFillHeight;
 
       wrap.style.width = `${frameWidth}px`;
       frameArea.style.width = `${frameWidth}px`;
